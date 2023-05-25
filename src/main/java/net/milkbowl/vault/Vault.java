@@ -63,6 +63,7 @@ import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -81,7 +82,7 @@ import org.json.simple.JSONValue;
 
 import net.milkbowl.vault.chat.plugins.Chat_TotalPermissions;
 
-public class Vault extends JavaPlugin {
+public class Vault extends JavaPlugin implements CommandExecutor {
 
     private static final String VAULT_BUKKIT_URL = "https://dev.bukkit.org/projects/Vault";
     private static Logger log;
@@ -108,7 +109,7 @@ public class Vault extends JavaPlugin {
         plugin = this;
         log = this.getLogger();
         currentVersionTitle = getDescription().getVersion().split("-")[0];
-        currentVersion = Double.valueOf(currentVersionTitle.replaceFirst("\\.", ""));
+        currentVersion = Double.parseDouble(currentVersionTitle.replaceFirst("\\.", ""));
         sm = getServer().getServicesManager();
         // set defaults
         getConfig().addDefault("update-check", true);
@@ -117,9 +118,8 @@ public class Vault extends JavaPlugin {
         // Load Vault Addons
         loadPermission();
         loadChat();
-
-        getCommand("vault-info").setExecutor(this);
-        getCommand("vault-convert").setExecutor(this);
+        //getCommand("vault-info").setExecutor(this);
+        //getCommand("vault-convert").setExecutor(this);
         getServer().getPluginManager().registerEvents(new VaultListener(), this);
         asyncTaskTimer = Executors.newScheduledThreadPool(1);
 
