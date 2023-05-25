@@ -4,18 +4,20 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<bukkitVersion>1.13.1-R0.1-SNAPSHOT</bukkitVersion>
-		<mainClass>${project.groupId}.${project.artifactId}</mainClass>
+		<paperVersion>1.19.4-R0.1-SNAPSHOT</paperVersion>
+		<mainClass>net.milkbowl.vault.Vault</mainClass>
+		<loaderClass>net.milkbowl.vault.VaultLoader</loaderClass>
 		<api.version>1.7</api.version>
 	</properties>
 
 	<!-- Project information -->
-	<groupId>net.milkbowl.vault</groupId>
-	<artifactId>Vault</artifactId>
-	<version>${api.version}.3</version>
+	<groupId>net.milkbowl</groupId>
+	<artifactId>vault</artifactId>
+	<version>${api.version}.4</version>
 	<name>Vault</name>
 	<url>https://dev.bukkit.org/projects/vault</url>
-	<description>Vault is a Chat, Permissions &amp; Economy API to allow plugins to more easily hook into these systems without needing to hook each individual system themselves.</description>
+	<description>Vault is a Chat, Permissions &amp; Economy API to allow plugins to more easily hook into
+		these systems without needing to hook each individual system themselves.</description>
 
 
 
@@ -53,7 +55,11 @@
 		<repository>
 			<id>pub-repo</id>
 			<name>Public Releases</name>
-			<url>http://nexus.hc.to/content/repositories/pub_releases/</url>
+			<url>https://nexus.hc.to/content/repositories/pub_releases/</url>
+		</repository>
+		<repository>
+			<id>paper-repo</id>
+			<url>https://repo.papermc.io/repository/maven-public/</url>
 		</repository>
 		<repository>
 			<id>spigot-repo</id>
@@ -61,7 +67,7 @@
 		</repository>
 		<repository>
 			<id>escapecraft-repo</id>
-			<url>http://dev.escapecraft.com/maven</url>
+			<url>https://dev.escapecraft.com/maven</url>
 		</repository>
 		<repository>
 			<id>codemc-repo</id>
@@ -71,9 +77,10 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.bukkit</groupId>
-			<artifactId>bukkit</artifactId>
-			<version>${bukkitVersion}</version>
+			<groupId>io.papermc.paper</groupId>
+			<artifactId>paper-api</artifactId>
+			<version>${paperVersion}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.milkbowl.vault</groupId>
@@ -240,22 +247,14 @@
 	</dependencies>
 
 	<build>
+		<finalName>${project.name}-${project.version}</finalName>
 		<defaultGoal>clean install</defaultGoal>
 		<sourceDirectory>src/</sourceDirectory>
-		<resources>
-			<resource>
-				<directory>${project.basedir}</directory>
-				<filtering>true</filtering>
-				<includes>
-					<include>plugin.yml</include>
-				</includes>
-			</resource>
-		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.0</version>
+				<version>3.10.1</version>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
@@ -264,8 +263,9 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
-				<version>3.1.0</version>
+				<version>3.3.0</version>
 				<configuration>
+					<shadedArtifactAttached>false</shadedArtifactAttached>
 					<createDependencyReducedPom>false</createDependencyReducedPom>
 					<artifactSet>
 						<includes>
@@ -294,6 +294,7 @@
 				<artifactId>coveralls-maven-plugin</artifactId>
 				<version>4.3.0</version>
 				<configuration>
+					<!--suppress UnresolvedMavenProperty -->
 					<repoToken>${env.COVERALLS_REPO_TOKEN}</repoToken>
 				</configuration>
 			</plugin>
